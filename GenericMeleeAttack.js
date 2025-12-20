@@ -157,7 +157,12 @@ animDta = [
     {'name': 'RegMaceSmash', 'type': 'sanim', 'anim': '!/anim Mace01_05_Regular_Orange *0.6 -0.4 +2 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.7 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3'},
     {'name': 'RegMaceSmash', 'type': 'csanim', 'anim': '!/anim Mace01_05_Regular_Orange *0.6 -0.4 +2 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.9 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.6'},
     {'name': 'RegMaceSmash', 'type': 'fanim', 'anim': '!/anim Mace01_05_Regular_Orange *0.6 -0.4 +1.2'},
-    {'name': 'RegMaceSmash', 'type': 'cfanim', 'anim': '!/anim Mace01_05_Regular_Orange *0.6 -0.6 +0.5 \\\\!/wait 1500 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3 @self'}
+    {'name': 'RegMaceSmash', 'type': 'cfanim', 'anim': '!/anim Mace01_05_Regular_Orange *0.6 -0.6 +0.5 \\\\!/wait 1500 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3 @self'},
+    {'name': 'FrenzySlash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'FrenzySlash', 'type': 'sanim', 'anim': '!/anim MeleeAttack*HandAxe *0.6 -0.3 +3 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.7 \\\\!/wait 1000 \\\\!/anim LiquidSplashSide01_Regular_Red *0.3 +4 -0.9 \\\\!/wait 1000 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3'},
+    {'name': 'FrenzySlash', 'type': 'csanim', 'anim': '!/anim MeleeAttack*HandAxe *0.9 -0.3 +3 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.9 \\\\!/wait 1000 \\\\!/anim LiquidSplashSide01_Regular_Red *0.3 +4 -0.9 \\\\!/wait 1000 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3'},
+    {'name': 'FrenzySlash', 'type': 'fanim', 'anim': '!/anim MeleeAttack*HandAxe *0.6 -0.3 +3'},
+    {'name': 'FrenzySlash', 'type': 'cfanim', 'anim': '!/anim MeleeAttack*HandAxe *0.4 -0.3 +3 \\\\!/wait 1500 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3 @self'}
 ];
 
 function getAnimSet(animDta, animName, typeSet) {
