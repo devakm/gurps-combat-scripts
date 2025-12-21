@@ -61,11 +61,16 @@ if (useSpells == true) {
 
 	SpellSkill = Number(SpellData.level);
 	CostMod = 0
-	if (SpellSkill > 19) {
-		CostMod = -2
-	} else if (SpellSkill > 14) {
-		CostMod = -1
-	} 
+    if (SpellSkill > 29) {
+        CostMod = -4
+    } else if (SpellSkill > 24) {
+        CostMod = -3
+    } else if (SpellSkill > 19) {
+        CostMod = -2
+    } else if (SpellSkill > 14) {
+        CostMod = -1
+    }
+
 	CritCostMod = Number(CostMod-8)
 	AttackSpell = `[Sp:${SpellName}]`; // alter the OtF type used for primary check
 } else if (SpellName != undefined && SpellName.includes(':') && SpellName.split(':')[1].length > 0) {
@@ -87,6 +92,28 @@ can we use something like
 const myContent = await renderTemplate("modules/gurps-instant-defaults/templates/generator.html");
 
 */
+spellDta = [
+    { 'name': 'BurningTouch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=BurningTouch dice=1 adds=0 type=burn'},
+    { 'name': 'BurningTouch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=BurningTouch dice=1 adds=+2 type=burn'},
+    { 'name': 'BurningTouch', 'type': 'fformula', 'sdmg': '/fp -1'},
+    { 'name': 'BurningTouch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'},
+    { 'name': 'Burning*Touch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=BurningTouch dice=1 adds=0 type=burn'},
+    { 'name': 'Burning*Touch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=BurningTouch dice=1 adds=+2 type=burn'},
+    { 'name': 'Burning*Touch', 'type': 'fformula', 'sdmg': '/fp -1'},
+    { 'name': 'Burning*Touch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'},
+    { 'name': 'ShockingTouch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=Shocking*Touch dice=1 adds=+1 type=burn'},
+    { 'name': 'ShockingTouch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Shocking*Touch dice=1 adds=+3 type=burn'},
+    { 'name': 'ShockingTouch', 'type': 'fformula', 'sdmg': '/fp -1'},
+    { 'name': 'ShockingTouch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'},
+    { 'name': 'Shocking*Touch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=Shocking*Touch dice=1 adds=+1 type=burn'},
+    { 'name': 'Shocking*Touch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Shocking*Touch dice=1 adds=+3 type=burn'},
+    { 'name': 'Shocking*Touch', 'type': 'fformula', 'sdmg': '/fp -1'},
+    { 'name': 'Shocking*Touch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'},
+    { 'name': 'Deathtouch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=0 type=burn'},
+    { 'name': 'Deathtouch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=+2 type=burn'},
+    { 'name': 'Deathtouch', 'type': 'fformula', 'sdmg': '/fp -1'  },
+    { 'name': 'Deathtouch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'  }
+]
 
 animDta = [
     {'name': 'ex', 'type': 'sanim', 'anim': 'success'},
@@ -162,14 +189,74 @@ animDta = [
     {'name': 'FrenzySlash', 'type': 'sanim', 'anim': '!/anim MeleeAttack*HandAxe *0.6 -0.3 +3 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.7 \\\\!/wait 1000 \\\\!/anim LiquidSplashSide01_Regular_Red *0.3 +4 -0.9 \\\\!/wait 1000 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3'},
     {'name': 'FrenzySlash', 'type': 'csanim', 'anim': '!/anim MeleeAttack*HandAxe *0.9 -0.3 +3 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.9 \\\\!/wait 1000 \\\\!/anim LiquidSplashSide01_Regular_Red *0.3 +4 -0.9 \\\\!/wait 1000 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3'},
     {'name': 'FrenzySlash', 'type': 'fanim', 'anim': '!/anim MeleeAttack*HandAxe *0.6 -0.3 +3'},
-    {'name': 'FrenzySlash', 'type': 'cfanim', 'anim': '!/anim MeleeAttack*HandAxe *0.4 -0.3 +3 \\\\!/wait 1500 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3 @self'}
+    {'name': 'FrenzySlash', 'type': 'cfanim', 'anim': '!/anim MeleeAttack*HandAxe *0.4 -0.3 +3 \\\\!/wait 1500 \\\\!/anim IconShieldCracked_01_Dark_Red c *0.3 @self'},
+    {'name': 'BurningSmash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'BurningSmash', 'type': 'sanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c *0.7 \\\\!/anim Flames_01_Regular_Orange c *0.5'},
+    {'name': 'BurningSmash', 'type': 'csanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_01_Regular_Yellow c \\\\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'BurningSmash', 'type': 'fanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 -0.1'},
+    {'name': 'BurningSmash', 'type': 'cfanim', 'anim': '!/anim Impact_01_Regular_Yellow c *0.8 @self \\\\!/anim Flames_01_Regular_Orange c *0.4 @self'},
+    {'name': 'ShockingSmash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'ShockingSmash', 'type': 'sanim', 'anim': '!/anim Quarterstaff02*Regular_Blue *0.3 -0.2 +1 \\\\!/wait 1300 \\\\!/anim Impact_04_Regular_Blue c *0.3 \\\\!/wait 1100 \\\\!/anim LightningBall_01_Regular_Blue c *0.3'},
+    {'name': 'ShockingSmash', 'type': 'csanim', 'anim': '!/anim Quarterstaff02*Regular_Blue *0.3 -0.2 +1 \\\\!/wait 1300 \\\\!/anim Impact_04_Regular_Blue c *0.5 \\\\!/wait 1100 \\\\!/anim LightningBall_01_Regular_Blue c *0.4'},
+    {'name': 'ShockingSmash', 'type': 'fanim', 'anim': '!/anim Impact_07_Regular_Blue c *0.4 @self'},
+    {'name': 'ShockingSmash', 'type': 'cfanim', 'anim': '!/anim Impact_04_Regular_Blue c *0.3 @self'},
+    {'name': 'DeathSmash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'DeathSmash', 'type': 'sanim', 'anim': '!/anim Quarterstaff03*Regular_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c *0.5'},
+    {'name': 'DeathSmash', 'type': 'csanim', 'anim': '!/anim Quarterstaff03*Regular_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c \\\\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'DeathSmash', 'type': 'fanim', 'anim': '!/anim Quarterstaff03*Regular_Purple *0.3 -0.2 -0.1'},
+    {'name': 'DeathSmash', 'type': 'cfanim', 'anim': '!/anim Explosion_04_Dark_Purple c *0.4 @self'},
+    {'name': 'DeathStab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'DeathStab', 'type': 'sanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c *0.5'},
+    {'name': 'DeathStab', 'type': 'csanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c \\\\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'DeathStab', 'type': 'fanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 -0.1'},
+    {'name': 'DeathStab', 'type': 'cfanim', 'anim': '!/anim Explosion_04_Dark_Purple c *0.4 @self'},
+    {'name': 'DeathJab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\\\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'DeathJab', 'type': 'sanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c *0.5'},
+    {'name': 'DeathJab', 'type': 'csanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 +1 \\\\!/wait 1500 \\\\!/anim Impact_04_Dark_Purple c \\\\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'DeathJab', 'type': 'fanim', 'anim': '!/anim Spear01_Fire_Dark_Purple *0.3 -0.2 -0.1'},
+    {'name': 'DeathJab', 'type': 'cfanim', 'anim': '!/anim Explosion_04_Dark_Purple c *0.4 @self'},    {'name': 'BurningSmash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'BurningSmash', 'type': 'sanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c *0.7 \\!/anim Flames_01_Regular_Orange c *0.5'},
+    {'name': 'BurningSmash', 'type': 'csanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c \\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'BurningSmash', 'type': 'fanim', 'anim': '!/anim Quarterstaff01*Regular_Orange *0.3 -0.2 -0.1'},
+    {'name': 'BurningSmash', 'type': 'cfanim', 'anim': '!/anim Impact_01_Regular_Yellow c *0.8 @self \\!/anim Flames_01_Regular_Orange c *0.4 @self'},
+    {'name': 'BurningJab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'BurningJab', 'type': 'sanim', 'anim': '!/anim Quarterstaff01_03_Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c *0.7 \\!/anim Flames_01_Regular_Orange c *0.5'},
+    {'name': 'BurningJab', 'type': 'csanim', 'anim': '!/anim Quarterstaff01_03_Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c \\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'BurningJab', 'type': 'fanim', 'anim': '!/anim Quarterstaff01_03_Regular_Orange *0.3 -0.2 -0.1'},
+    {'name': 'BurningJab', 'type': 'cfanim', 'anim': '!/anim Impact_01_Regular_Yellow c *0.8 @self \\!/anim Flames_01_Regular_Orange c *0.4 @self'},
+    {'name': 'BurningStab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'BurningStab', 'type': 'sanim', 'anim': '!/anim Spear01_Fire_Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c *0.7 \\!/anim Flames_01_Regular_Orange c *0.5'},
+    {'name': 'BurningStab', 'type': 'csanim', 'anim': '!/anim Spear01_Fire_Regular_Orange *0.3 -0.2 +1 \\!/wait 1500 \\!/anim Impact_01_Regular_Yellow c \\!/anim Flames_01_Regular_Orange c *0.8'},
+    {'name': 'BurningStab', 'type': 'fanim', 'anim': '!/anim Spear01_Fire_Regular_Orange *0.3 -0.2 -0.1'},
+    {'name': 'BurningStab', 'type': 'cfanim', 'anim': '!/anim Impact_01_Regular_Yellow c *0.8 @self \\!/anim Flames_01_Regular_Orange c *0.4 @self'},
+    {'name': 'ShockingSmash', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'ShockingSmash', 'type': 'sanim', 'anim': '!/anim Quarterstaff02*Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.3 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.3'},
+    {'name': 'ShockingSmash', 'type': 'csanim', 'anim': '!/anim Quarterstaff02*Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.5 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.4'},
+    {'name': 'ShockingSmash', 'type': 'fanim', 'anim': '!/anim Impact_07_Regular_Blue c *0.4 @self'},
+    {'name': 'ShockingSmash', 'type': 'cfanim', 'anim': '!/anim Impact_04_Regular_Blue c *0.3 @self'},
+    {'name': 'ShockingJab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'ShockingJab', 'type': 'sanim', 'anim': '!/anim Quarterstaff01_03_Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.3 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.3'},
+    {'name': 'ShockingJab', 'type': 'csanim', 'anim': '!/anim Quarterstaff01_03_Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.5 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.4'},
+    {'name': 'ShockingJab', 'type': 'fanim', 'anim': '!/anim Impact_07_Regular_Blue c *0.4 @self'},
+    {'name': 'ShockingJab', 'type': 'cfanim', 'anim': '!/anim Impact_04_Regular_Blue c *0.3 @self'},
+    {'name': 'ShockingStab', 'type': 'rdy', 'anim': '!/anim EnergyStrandIN01_03_Regular_Yellow c *0.5 @self \\!/anim BorderInPulse_01_Circle_Normal_500 c *0.3 @self'},
+    {'name': 'ShockingStab', 'type': 'sanim', 'anim': '!/anim Spear01_Fire_Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.3 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.3'},
+    {'name': 'ShockingStab', 'type': 'csanim', 'anim': '!/anim Spear01_Fire_Regular_Blue *0.3 -0.2 +1 \\!/wait 1300 \\!/anim Impact_04_Regular_Blue c *0.5 \\!/wait 1100 \\!/anim LightningBall_01_Regular_Blue c *0.4'},
+    {'name': 'ShockingStab', 'type': 'fanim', 'anim': '!/anim Impact_07_Regular_Blue c *0.4 @self'},
+    {'name': 'ShockingStab', 'type': 'cfanim', 'anim': '!/anim Impact_04_Regular_Blue c *0.3 @self'}
 ];
+
+
+function getSpellSet(spellDta, spellName, typeSet) {
+    let spell = spellDta.find(x => x.type == typeSet && x.name == spellName).sdmg;
+    return spell;
+}
 
 function getAnimSet(animDta, animName, typeSet) {
     let anim = animDta.find(x => x.type == typeSet && x.name == animName).anim;
     return anim;
 }
-       
+
 // outcome animations lookup by type [tox] and label [sanim]
 let sanim = ''; // success animation 
 let csanim = ''; // critical success animation 
@@ -183,20 +270,21 @@ let csformulaSp; // critical success animation
 let fformulaSp; // failure animation 
 let cfformulaSp; // critical failure animation
 
-if (useSpells == true) {
+if (useSpells == true && SpellName != undefined && SpellName.length > 0) {
 	// spell outcome formulas lookup by name [Fireball] and type [sformula]
-	sformulaSp = getSpellSet(spellDta, SpellName, 'sformula')+`${CostMod}`; // success animation 
-	csformulaSp = getSpellSet(spellDta, SpellName, 'csformula')+`${CritCostMod}`; // critical success animation 
+    sformulaSp = getSpellSet(spellDta, SpellName, 'sformula') + ` adjust=${CostMod} crit=false`; // success animation 
+    csformulaSp = getSpellSet(spellDta, SpellName, 'csformula') + ` adjust=${CritCostMod} crit=true`; // critical success animation 
 	fformulaSp = getSpellSet(spellDta, SpellName, 'fformula'); // failure animation 
 	cfformulaSp = getSpellSet(spellDta, SpellName, 'cfformula'); // critical failure animation
 	//getSpellSet(spellDta, 'Fireball', 'sformula');	
 	
 	// outcome animations lookup by type [tox] and label [sanim]
-	sanim = getAnimSet(animDta, SpellName, 'sanim'); // success animation 
-	csanim = getAnimSet(animDta, SpellName, 'csanim'); // critical success animation 
-	fanim = getAnimSet(animDta, SpellName, 'fanim'); // failure animation 
-	cfanim = getAnimSet(animDta, SpellName, 'cfanim'); // critical failure animation
-	rdyanim = getAnimSet(animDta, SpellName, 'rdy'); // ready animation
+	// Use animSet for animation lookups (allows spell name != animation set name)
+    sanim = getAnimSet(animDta, animSet, 'sanim'); // success animation 
+	csanim = getAnimSet(animDta, animSet, 'csanim'); // critical success animation 
+	fanim = getAnimSet(animDta, animSet, 'fanim'); // failure animation 
+	cfanim = getAnimSet(animDta, animSet, 'cfanim'); // critical failure animation
+	rdyanim = getAnimSet(animDta, animSet, 'rdy'); // ready animation
 } else if (animSet != undefined && animSet.length > 0) {
 	// outcome animations lookup by type [tox] and label [sanim]
 	sanim = getAnimSet(animDta, animSet, 'sanim'); // success animation 
@@ -364,7 +452,17 @@ let acsFormula = `${CritStrikeDamage} \\\\${csanim}`; // attack critical success
 let afFormula =`Your attack missed! \\\\${fanim}`; // attack failure formula 
 let acfFormula =`You crit failed your attack, so you drop your weapon! \\\\${cfanim} \\\\/status on disarmed \\\\/fp -1`; // attack critical failure formula 
 
-let attackFormulaOtF = `/if ${Attack} s:{${asFormula}} cs:{${acsFormula}} f:{${afFormula}} cf:{${acfFormula}}`;
+let attackFormulaMeleeOtF = `/if ${Attack} s:{${asFormula}} cs:{${acsFormula}} f:{${afFormula}} cf:{${acfFormula}}`;
+let attackFormulaOtF = ``;
+if (useSpells == true && AttackSpell != undefined && AttackSpell.length > 0) {
+    let sformula = `${StrikeDamage} \\\\${sformulaSp} \\\\${sanim}`; // success formula 
+    let csformula = `${CritStrikeDamage} \\\\${csformulaSp} \\\\${csanim}`; // critical success formula 
+    let fformula = fformulaSp; // failure formula 
+    let cfformula = cfformulaSp; // critical failure formula
+    attackFormulaOtF = `[/if ${AttackSpell} cs:{/if ${Attack} {${csformula} }} cf:{${cfformula}} s:{/if ${Attack} cs:{${csformula} } s:{${sformula}} cf:{${cfformula}} f:{${fformula}}} f:{${fformula}} ]`;
+} else {
+    attackFormulaOtF = `${attackFormulaMeleeOtF}`;
+}
 console.log(attackFormulaOtF);
 
 // clickAttack
