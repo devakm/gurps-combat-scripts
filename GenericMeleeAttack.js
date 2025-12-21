@@ -109,8 +109,8 @@ spellDta = [
     { 'name': 'Shocking*Touch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Shocking*Touch dice=1 adds=+3 type=burn'},
     { 'name': 'Shocking*Touch', 'type': 'fformula', 'sdmg': '/fp -1'},
     { 'name': 'Shocking*Touch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'},
-    { 'name': 'Deathtouch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=0 type=burn'},
-    { 'name': 'Deathtouch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=+2 type=burn'},
+    { 'name': 'Deathtouch', 'type': 'sformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=0 type=dmg'},
+    { 'name': 'Deathtouch', 'type': 'csformula', 'sdmg': '/:SpellDamage title=Deathtouch dice=1 adds=+2 type=dmg'},
     { 'name': 'Deathtouch', 'type': 'fformula', 'sdmg': '/fp -1'  },
     { 'name': 'Deathtouch', 'type': 'cfformula', 'sdmg': '/hp -1d-3! \\\\/rolltable CritMiss'  }
 ]
