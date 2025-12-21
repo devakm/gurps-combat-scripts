@@ -13,7 +13,7 @@ let AttackName ='Flame*Jet'; //  Ranged Attack Name, i.e. [R:FlameJet]
 // each of these settings can be tested individually as an OtF or chat command.
 // outcome animations:
 let sanim = '!/anim BreathWeapon_Fire02_Regular_Orange*Cone_Burst* *0.5 -0.2 +1'; // success animation 
-let csanim = '!/anim BreathWeapon_Fire02_Regular_Orange*Cone_Burst* *0.8 -0.2 +1 \\\\!/wait 4500 \\\\!/anim FlameJetExplosion*Orange c *0.2'; // critical success animation 
+let csanim = '!/anim BreathWeapon_Fire02_Regular_Orange*Cone_Burst* *0.8 -0.2 +1'; // critical success animation 
 let fanim = '!/anim BreathWeapon_Fire02_Regular_Orange_30ft_Cone_Burst* -0.2 -3'; // failure animation 
 let cfanim = '!/anim BreathWeapon_Fire02_Regular_Orange_30ft_Cone_Burst* c *0.1 @self'; // critical failure animation 
 // check accuracy
