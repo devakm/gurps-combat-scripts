@@ -438,28 +438,49 @@ if (useFollowOnAttackData == true && followOnSave == false) {
 let Attack = '[M:'+AttackName+']'; // alter the OtF type used for attack
 let CritMiss = '/rolltable CritMiss'; // critical miss rolltable
 //let StrikeDamage = `/r [${dmgFinalOtF}]`; // strike damage OtF. If this penetrates DR, then apply SpellDamage
-let StrikeDamage = `/:RollDamage dmg="[${dmgFinalOtF}]${simpleFollowUpOtF}`; // strike damage OtF. If this penetrates DR, then apply SpellDamage
+let StrikeDamage = `/:RollDamage dmg="[${dmgFinalOtF}]"${simpleFollowUpOtF}`; // strike damage OtF. If this penetrates DR, then apply SpellDamage
 // /:RollDamage dmg="[2d cut]"
-let CritStrikeDamage = `/:RollDamage dmg="[${dmgFinalOtF}]${simpleFollowUpOtF} \\\\/:CritHitCalcMelee attack=${AttackName} kbm=${kbm} dmg="${dmgFinalOtF}" fon="${followUp}"`; // macro reference for CritHit using critTable
+let CritStrikeDamage = `/:RollDamage dmg="[${dmgFinalOtF}]"${simpleFollowUpOtF} \\\\/:CritHitCalcMelee attack=${AttackName} kbm=${kbm} dmg="${dmgFinalOtF}" fon="${followUp}"`; // macro reference for CritHit using critTable
 console.log(`Attack: ${Attack}; StrikeDamage: ${StrikeDamage}; CritStrikeDamage: ${CritStrikeDamage}; followUp: ${followUp};`);
 // /:CritHitCalcMelee attack=Thrice*Swung kbm=1 dmg=4d+17 cut fon=1d burn
 
 // Outcomes for critical success, critical failure, regular success, and regular failure
 // each of these settings can be tested individually as an OtF or chat command.
-// outcome formulas:
-let asFormula = `${StrikeDamage} \\\\${sanim}`; // attack success formula 
-let acsFormula = `${CritStrikeDamage} \\\\${csanim}`; // attack critical success formula 
-let afFormula =`Your attack missed! \\\\${fanim}`; // attack failure formula 
-let acfFormula =`You crit failed your attack, so you drop your weapon! \\\\${cfanim} \\\\/status on disarmed \\\\/fp -1`; // attack critical failure formula 
+// melee outcome formulas:
+let msFormula = `${StrikeDamage}`; // melee attack success formula 
+let mcsFormula = `${CritStrikeDamage}`; // melee attack critical success formula 
+let mfFormula =`Your attack missed!`; // melee attack failure formula 
+let mcfFormula =`You crit failed your attack, so you drop your weapon! \\\\/status on disarmed \\\\/fp -1`; // melee attack critical failure formula 
 
-let attackFormulaMeleeOtF = `/if ${Attack} s:{${asFormula}} cs:{${acsFormula}} f:{${afFormula}} cf:{${acfFormula}}`;
+let attackFormulaMeleeOtF = `/if ${Attack} s:{${msFormula} \\\\${sanim}} cs:{${mcsFormula} \\\\${csanim}} f:{${mfFormula} \\\\${fanim}} cf:{${mcfFormula} \\\\${cfanim}}`;
+console.log(attackFormulaMeleeOtF);
+
+// full attack formula with spell effects if used
 let attackFormulaOtF = ``;
 if (useSpells == true && AttackSpell != undefined && AttackSpell.length > 0) {
-    let sformula = `${StrikeDamage} \\\\${sformulaSp} \\\\${sanim}`; // success formula 
-    let csformula = `${CritStrikeDamage} \\\\${csformulaSp} \\\\${csanim}`; // critical success formula 
-    let fformula = fformulaSp; // failure formula 
-    let cfformula = cfformulaSp; // critical failure formula
-    attackFormulaOtF = `[/if ${AttackSpell} cs:{/if ${Attack} {${csformula} }} cf:{${cfformula}} s:{/if ${Attack} cs:{${csformula} } s:{${sformula}} cf:{${cfformula}} f:{${fformula}}} f:{${fformula}} ]`;
+    let bsFormula = `${StrikeDamage} \\\\${sformulaSp} \\\\${sanim}`;  // both success - melee and spell combined regular success formula; this is the most common outcome
+    let spsmcsFormula = `${CritStrikeDamage} \\\\${sformulaSp} \\\\${csanim}`; // spell regular success with melee critical success formula
+    let spcsmsFormula = `${StrikeDamage} \\\\${csformulaSp} \\\\${csanim}`; // spell critical success with melee regular success formula
+    let bcsFormula = `${CritStrikeDamage} \\\\${csformulaSp} \\\\${csanim}`; // both spell critical success and melee critical success formula
+    /*
+    attackFormulaOtF = `[/if ${AttackSpell} 
+    f:{${fformulaSp}}
+    cf:{${cfformulaSp}}
+    s:{/if ${Attack}
+        f:{${mfFormula}} 
+        cf:{${mcfFormula}}
+        s:{${bsFormula}} 
+        cs:{${spsmcsFormula}} 
+    }
+    cs:{/if ${Attack}
+        f:{${mfFormula}} 
+        cf:{${mcfFormula}}
+        s:{${spcsmsFormula}} 
+        cs:{${bcsFormula}} 
+    }
+    ]`;
+    */
+    attackFormulaOtF = `[/if ${AttackSpell} f:{${fformulaSp}} cf:{${cfformulaSp}} s:{/if ${Attack} f:{${mfFormula}} cf:{${mcfFormula}} s:{${bsFormula}} cs:{${spsmcsFormula}}} cs:{/if ${Attack} f:{${mfFormula}} cf:{${mcfFormula}} s:{${spcsmsFormula}} cs:{${bcsFormula}}} ]`;
 } else {
     attackFormulaOtF = `${attackFormulaMeleeOtF}`;
 }
