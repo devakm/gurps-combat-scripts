@@ -1,6 +1,6 @@
 /* Usage: /:DrinkPautGreater
  
- * ["Use Greater Paut"/:DrinkPautGreater]
+ * ["Use Greater Paut on Target"/:DrinkPautGreater]
 
 */
 
